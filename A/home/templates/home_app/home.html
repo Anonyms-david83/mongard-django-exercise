@@ -9,9 +9,9 @@
 
     {% for product in products %}
 
-        <h1> {{product.tire_name}} </h1>
+        <a href="{% url 'home:detail' product.id %}">{{product.tire_name}}</a>
         <p> {{product.tire_description}} </p>
-        <small> {{product.tire_price}} </small>
+        <small> {{product.tire_price}} </small> <hr>
 
     {% endfor %}
 
