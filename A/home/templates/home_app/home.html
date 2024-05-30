@@ -1,13 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-</head>
-<body>
+{% extends 'inc/extend.html' %}
 
-    <h1>hello user</h1>
-    
-</body>
-</html>
+{% block title %} Home {%endblock title%}
+
+{% block content %} 
+
+
+    <h1> Hello user </h1>
+
+    {% for product in products %}
+
+        <h1> {{product.tire_name}} </h1>
+        <p> {{product.tire_description}} </p>
+        <small> {{product.tire_price}} </small>
+
+    {% endfor %}
+
+{% endblock content %}
