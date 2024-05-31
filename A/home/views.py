@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect
-from .models import Tire
-from .forms import Add_Porduct_Form , Tire_Update_form
+from .models import Tire , ContactForm
+from .forms import Add_Porduct_Form , Tire_Update_form , ContactUsForm
 from django.contrib import messages
 
 
@@ -61,3 +61,22 @@ def product_update(request , product_id):
     else :
         form = Tire_Update_form(instance=product)   
     return render(request , template_name , context={"form" : form})   
+
+
+
+def contact (request):
+    template_name = 'home_app/contact_form.html'
+    
+    if request.method == 'POST':
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+                cd = form.cleaned_data
+                ContactForm.objects.create(contact_name=cd['form_contact_name'] , contact_phone=cd['form_contact_phone'] , contact_body=cd['form_contact_body'] , contact_email=cd['form_contact_email'])
+                messages.add_message(request , messages.SUCCESS , 'successfully submitted' , 'success')
+                return redirect('home:home')
+        else:
+            messages.add_message(request , messages.ERROR , 'there was an error' , 'danger')
+            return redirect('home:contact')
+    else : 
+        form = ContactUsForm()
+        return render (request , template_name , context={'form':form})
