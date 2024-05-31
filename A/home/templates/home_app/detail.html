@@ -4,6 +4,9 @@
 
 {% block content %}
 
+    <a class='btn btn-danger' href='{% url "home:delete" product.id %}'>Delete</a>
+    <a class='btn btn-info' href='{% url "home:update" product.id %}'>Update</a>
+
     <h1> {{product.tire_name}} </h1>
     <p> {{product.tire_description}} </p>
     <small> {{product.tire_price}} </small>
