@@ -13,7 +13,7 @@ def user_register(request):
         if form.is_valid():
             try:
                 cd = form.cleaned_data
-                User.objects.create(username=cd['register_form_username'] , password=cd['register_form_password'] , email=cd['register_form_email'])
+                User.objects.create_user(username=cd['register_form_username'] , password=cd['register_form_password'] , email=cd['register_form_email'])
                 messages.add_message(request , messages.SUCCESS , 'registered succesfulyy' , 'success')
                 return redirect('home:home')
             except:
@@ -29,16 +29,18 @@ def user_login(request):
         form = UserLoginForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            user = authenticate(request , username=cd['login_form_username'] , password = ['login_form_password'])
+            user = authenticate(username=cd['login_form_username'], password=cd['login_form_password'])
             if user is not None:
-                login(request , user)
-                messages.SUCCESS(request , messages.SUCCESS , 'Loiggined successfully' , 'success')
+                login(request, user)
+                messages.add_message(request, messages.SUCCESS,'Logged in successfully' , 'success')
                 return redirect('home:home')
-            else :
-                messages.ERROR(request , messages.ERROR , 'invalid credentials , pleaes try again later ..' , 'danger')    
-    else :
-        form = UserLoginForm()
-        return render(request , template_name , context={"form" : form})
+            else:
+                messages.add_message(request, messages.ERROR ,'Invalid credentials provided' , 'danger')
+        else:
+            messages.add_message(request, messages.ERROR ,'Form is not valid. Please check your input.' , 'danger')
+    
+    form = UserLoginForm()
+    return render(request, template_name, context={"form": form})
 
 def user_logout(request):
     try:
